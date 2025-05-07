@@ -1,5 +1,5 @@
 // app/api/repair-admin/route.js
-import { supabase } from "@/lib/supabase-server";
+import { supabase } from "@/lib/supabaseClient";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
