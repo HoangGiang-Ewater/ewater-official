@@ -1,0 +1,20 @@
+{
+  "features": [
+    {
+      "title": "Tư vấn",
+      "description": "Cung cấp dịch vụ tư vấn các vấn đề về tài nguyên nước"
+    },
+    {
+      "title": "Tài nguyên nước",
+      "description": "Lĩnh vực hoạt động chính \n của công ty"
+    },
+    {
+      "title": "Quy trình vận hành",
+      "description": "Xây dựng quy trình vận hành \n cho các công trình thủy lợi"
+    },
+    {
+      "title": "Kinh nghiệm",
+      "description": "Đội ngũ kỹ sư giàu kinh nghiệm \n kinh qua nhiều dự án quy mô"
+    }
+  ]
+}

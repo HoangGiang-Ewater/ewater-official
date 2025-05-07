@@ -1,0 +1,20 @@
+{
+  "features": [
+    {
+      "title": "Consulting",
+      "description": "Providing consulting services on water resource issues."
+    },
+    {
+      "title": "Water Resources",
+      "description": "The main field of operation of the company."
+    },
+    {
+      "title": "Operational Procedures",
+      "description": "Developing operational procedures for irrigation works."
+    },
+    {
+      "title": "Experience",
+      "description": "A team of highly experienced engineers with a proven track record in numerous large-scale projects."
+    }
+  ]
+}

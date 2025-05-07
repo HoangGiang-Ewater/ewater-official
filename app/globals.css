@@ -1,0 +1,195 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+    --text-default: #000000;
+    --text-gray: #6B7280;
+    --text-brown: #92400E;
+    --text-orange: #EA580C;
+    --text-yellow: #CA8A04;
+    --text-green: #16A34A;
+    --text-blue: #2563EB;
+    --text-purple: #9333EA;
+    --text-pink: #DB2777;
+    --text-red: #DC2626;
+    --highlight-default: #FFFFFF;
+    --highlight-gray: #F3F4F6;
+    --highlight-brown: #FEF3C7;
+    --highlight-orange: #FFEDD5;
+    --highlight-yellow: #FEF9C3;
+    --highlight-green: #DCFCE7;
+    --highlight-blue: #DBEAFE;
+    --highlight-purple: #F3E8FF;
+    --highlight-pink: #FCE7F3;
+    --highlight-red: #FEE2E2;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+    --text-default: #FFFFFF;
+    --text-gray: #9CA3AF;
+    --text-brown: #D97706;
+    --text-orange: #F97316;
+    --text-yellow: #EAB308;
+    --text-green: #22C55E;
+    --text-blue: #3B82F6;
+    --text-purple: #A855F7;
+    --text-pink: #EC4899;
+    --text-red: #EF4444;
+    --highlight-default: #1F2937;
+    --highlight-gray: #374151;
+    --highlight-brown: #78350F;
+    --highlight-orange: #9A3412;
+    --highlight-yellow: #854D0E;
+    --highlight-green: #166534;
+    --highlight-blue: #1E40AF;
+    --highlight-purple: #6B21A8;
+    --highlight-pink: #9D174D;
+    --highlight-red: #991B1B;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .abs-center {
+    @apply absolute inset-0 flex-center;
+  }
+
+  .fixed-center {
+    @apply fixed inset-0 flex-center;
+  }
+
+  .sticky-top {
+    @apply sticky top-0 z-10;
+  }
+
+  .header-scrolled {
+    @apply shadow-md bg-background;
+  }
+
+  .discard-btn {
+    @apply bg-red-400/10 text-red-500 hover:bg-red-400/5;
+  }
+}
+
+/* text stroke */
+.text-stroke {
+  -webkit-text-stroke: 2 black;
+}
+
+
+.ProseMirror {
+  @apply px-4 pt-2;
+  outline: none !important;
+}
+
+h1 {
+  @apply mb-6 mt-8 text-4xl font-bold;
+}
+
+h2 {
+  @apply mb-4 mt-6 text-3xl font-bold;
+}
+
+h3 {
+  @apply mb-3 mt-4 text-xl font-bold;
+}
+
+h4 {
+  @apply mb-2 mt-3 text-lg font-bold;
+}
+
+h5 {
+  @apply mb-2 mt-2 text-base font-bold;
+}
+
+h6 {
+  @apply mb-2 mt-2 text-sm font-bold;
+}
+
+h1:first-child,
+h2:first-child,
+h3:first-child {
+  margin-top: 0;
+}
+
+h1+h2,
+h1+h3,
+h2+h1,
+h2+h3,
+h3+h1,
+h3+h2 {
+  margin-top: 0;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  @apply pointer-events-none float-left h-0 text-accent-foreground;
+  content: attr(data-placeholder);
+}
+
+.tiptap ul,
+.tiptap ol {
+  padding: 0 1rem;
+}
+
+.tiptap blockquote {
+  border-left: 3px solid gray;
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+}
