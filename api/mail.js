@@ -1,6 +1,3 @@
-import { Resend } from "resend";
-import ReplyTemplate from "@/app/_components/mails/ReplyTemplate";
-
 /**
  * @function sendMail
  * @description Sends an email using the provided parameters.

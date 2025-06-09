@@ -3,11 +3,7 @@ import { Resend } from "resend";
 import { NextResponse } from "next/server";
 import ReplyTemplate from "@/app/_components/mails/ReplyTemplate";
 
-console.log(
-  "NEXT_PUBLIC_RESEND_API_KEY: ",
-  process.env.NEXT_PUBLIC_RESEND_API_KEY
-);
-const resend = new Resend(process.env.NEXT_PUBLIC_RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
   const { to, subject, message, name } = await req.json();
