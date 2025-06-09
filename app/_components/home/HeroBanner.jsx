@@ -1,38 +1,23 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import ComesInGoesOutUnderline from "@/fancy/components/text/underline-comes-in-goes-out";
+import { blurSlideUp } from "@/lib/animate";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import Image from "next/image";
-import CallToActionButton from "../reusable/CallToActionButton";
-import ComesInGoesOutUnderline from "@/fancy/components/text/underline-comes-in-goes-out";
 import Link from "next/link";
-import { blurSlideUp } from "@/lib/animate";
-
-const animation = {
-  initial: {
-    y: 100,
-    opacity: 0,
-    filter: "blur(10px)",
-  },
-  whileInView: {
-    y: 0,
-    opacity: 1,
-    filter: "blur(0)",
-  },
-  transition: {
-    duration: 0.8,
-    ease: [0, 0.71, 0.2, 1.01],
-    delay: 0.3,
-  },
-};
+import CallToActionButton from "../reusable/CallToActionButton";
+import { useQuery } from "@tanstack/react-query";
+import { getHeroVideoUrl } from "@/api/media";
 
 function HeroBanner() {
+  const heroVideoUrl = getHeroVideoUrl();
+
   return (
     <div className="relative">
       <motion.video
-        src={"/videos/hero-video.mp4"}
+        src={heroVideoUrl}
         className="w-full h-screen object-cover"
         autoPlay
         loop

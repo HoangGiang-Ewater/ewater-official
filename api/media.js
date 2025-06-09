@@ -87,6 +87,24 @@ export async function getPaginatedMediaFromBucket(
   return { data: filesWithUrls, error: null, total };
 }
 
+// Get the public URL for the hero video
+export function getHeroVideoUrl() {
+  const filePath = "video/hero-video.mp4";
+  const { data } = supabase.storage
+    .from("project-media")
+    .getPublicUrl(filePath);
+  return data?.publicUrl || null;
+}
+
+// Get the public URL for the about video
+export function getAboutVideoUrl() {
+  const filePath = "video/about-us-video.mp4";
+  const { data } = supabase.storage
+    .from("project-media")
+    .getPublicUrl(filePath);
+  return data?.publicUrl || null;
+}
+
 /**
  * @function deleteFileFromBucket
  * @description Deletes a file from a specified bucket in the S3 storage.

@@ -1,6 +1,7 @@
 import ContactSection from "@/app/_components/home/ContactSection";
 import PageHeader from "@/app/_components/reusable/PageHeader";
 import ProjectsTab from "./ProjectsTab";
+import VideoSection from "@/app/_components/reusable/VideoSection";
 
 export const metadata = {
   title: "Dự án",
@@ -25,19 +26,3 @@ function page() {
 }
 
 export default page;
-
-function VideoSection() {
-  return (
-    <div className="py-md:pl-28 lg:pl-[444px] py-8">
-      <div className="relative min-h-[300px] md:min-h-[500px] w-full overflow-hidden">
-        <video
-          src={"/videos/about-us-video.mp4"}
-          className="object-cover absolute top-0 left-0 w-full h-full"
-          autoPlay
-          loop
-          muted
-        ></video>
-      </div>
-    </div>
-  );
-}
