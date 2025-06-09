@@ -9,7 +9,7 @@ export const metadata = {
 
 function page() {
   return (
-    <div className="min-h-screen mt-36">
+    <div className="min-h-screen mt-52">
       <div className="max-w-5xl mx-auto">
         <PageHeader
           title={"projects"}

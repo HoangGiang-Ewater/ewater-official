@@ -15,6 +15,11 @@ export default function TableContextProvider({ children, data, columns }) {
   const [sorting, setSorting] = React.useState([]);
   const [columnFilters, setColumnFilters] = React.useState([]);
   const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] = React.useState({});
+  // const [pagination, setPagination] = React.useState({
+  //   pageIndex: 0,
+  //   pageSize: 10,
+  // });
 
   const table = useReactTable({
     data,
@@ -25,15 +30,15 @@ export default function TableContextProvider({ children, data, columns }) {
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onRowSelectionChange: setRowSelection,
-    getPaginationRowModel: getPaginationRowModel(),
+    // getPaginationRowModel: getPaginationRowModel(),
+    // onPaginationChange: setPagination,
+    onColumnVisibilityChange: setColumnVisibility,
     state: {
+      // pagination,
       sorting,
       columnFilters,
+      columnVisibility,
       rowSelection,
-      pagination: {
-        pageIndex: 0,
-        pageSize: 10,
-      },
     },
   });
 

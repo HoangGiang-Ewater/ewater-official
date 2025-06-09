@@ -4,7 +4,6 @@ import { Roboto } from "next/font/google";
 const ThemeProvider = dynamic(() => import("@/components/theme-provider"));
 
 import "leaflet/dist/leaflet.css";
-import TableContextProvider from "@/contexts/TableContext";
 
 const roboto = Roboto({
   variable: "--font-roboto",

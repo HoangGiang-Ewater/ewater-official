@@ -1,3 +1,5 @@
+"use client";
+
 import { ToolbarProvider } from "@/components/toolbars/toolbar-provider";
 import { BlockquoteToolbar } from "@/components/toolbars/blockquote";
 import { BoldToolbar } from "@/components/toolbars/bold";
@@ -17,24 +19,46 @@ import { SearchAndReplaceToolbar } from "@/components/toolbars/search-and-replac
 import { StrikeThroughToolbar } from "@/components/toolbars/strikethrough";
 import { UndoToolbar } from "@/components/toolbars/undo";
 import { Separator } from "@/components/ui/separator";
-
+import { motion } from "framer-motion";
 import TextEditorBottomBar from "./TextEditorBottomBar";
 import { EditorContent } from "@tiptap/react";
+import React from "react";
+import { TextAlignToolbar } from "@/components/toolbars/text-align";
+import ParagraphToolbar from "@/components/toolbars/paragraph";
 
-function TextEditorMain({ editor, content, setDrafts, saveCurrentPost }) {
+function TextEditorMain({
+  editor,
+  setDrafts,
+  saveCurrentPost,
+  onSubmit,
+  defaultValue,
+  invalidateQuery,
+}) {
+  React.useEffect(() => {
+    if (!editor || !defaultValue) return;
+    editor.commands.setContent(defaultValue);
+  }, []);
+
   return (
     <div className="">
-      <div className="border-l border-r w-full relative overflow-hidden pb-3">
-        <div className="flex w-full items-center py-2 px-2 justify-between border-b sticky top-0 left-0 bg-background z-20">
+      <div className="w-full relative pb-3">
+        <motion.div
+          className="flex w-full items-center py-2 px-2 justify-between border-b sticky top-0 left-0 bg-background z-20 shadow-sm"
+          initial={{ y: -40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
           <ToolbarProvider editor={editor}>
             <div className="flex items-center gap-2 *:shrink-0">
               <UndoToolbar />
               <RedoToolbar />
               <Separator orientation="vertical" className="h-7" />
+              <ParagraphToolbar />
               <HeadingToolbar />
               <BoldToolbar />
               <ItalicToolbar />
               <StrikeThroughToolbar />
+              <TextAlignToolbar editor={editor} />
               <BulletListToolbar />
               <OrderedListToolbar />
               <CodeToolbar />
@@ -48,7 +72,7 @@ function TextEditorMain({ editor, content, setDrafts, saveCurrentPost }) {
               <SaveBtn onClick={saveCurrentPost} />
             </div>
           </ToolbarProvider>
-        </div>
+        </motion.div>
         <div
           onClick={() => {
             editor?.chain().focus().run();
@@ -60,8 +84,9 @@ function TextEditorMain({ editor, content, setDrafts, saveCurrentPost }) {
       </div>
       <TextEditorBottomBar
         editor={editor}
-        content={content}
         setDrafts={setDrafts}
+        onSubmit={onSubmit}
+        invalidateQuery={invalidateQuery}
       />
     </div>
   );

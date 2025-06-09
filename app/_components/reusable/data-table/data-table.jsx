@@ -17,7 +17,7 @@ import { useTableContext } from "@/contexts/TableContext";
 export function DataTable({ columns, data, header }) {
   return (
     <TableContextProvider columns={columns} data={data || []}>
-      <TableContent header={header} columns={columns} />
+      <TableContent header={header} columns={columns} rowCount={data.length} />
     </TableContextProvider>
   );
 }
@@ -28,10 +28,6 @@ function TableContent({ header, columns }) {
   if (!table.getRowModel()) {
     return <div>Loading...</div>;
   }
-
-  React.useEffect(() => {
-    console.log("Table instance:", table);
-  }, [table]);
 
   return (
     <>

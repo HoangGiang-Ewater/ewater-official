@@ -105,6 +105,7 @@ export const HeadingToolbar = () => {
           <TooltipTrigger asChild>
             <PopoverTrigger asChild>
               <Button
+                type="button"
                 variant="ghost"
                 size="sm"
                 className={cn("h-8 w-14 p-0 font-normal")}

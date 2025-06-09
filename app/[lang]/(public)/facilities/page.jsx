@@ -1,7 +1,7 @@
 import HeaderTag from "@/app/_components/reusable/HeaderTag";
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
-import { DataTable } from "../../../_components/reusable/data-table";
+import { DataTable } from "../../../_components/reusable/data-table/data-table";
 
 export const metadata = {
   title: "EWATER - Facilities",

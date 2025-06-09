@@ -19,6 +19,7 @@ const ImagePlaceholderToolbar = React.forwardRef(
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
+            type="button"
             variant="ghost"
             size="icon"
             className={cn(

@@ -3,10 +3,12 @@
 import {
   createProjectCategory,
   deleteProjectCategory,
-  fetchProjectCategories,
+  fetchPaginatedProjectCategoriesWithCount,
+  fetchProjectCategoriesWithCount,
+  updateProjectCategory,
 } from "@/api/projectCategories";
-import { DataTable } from "@/app/_components/reusable/data-table";
-import DataTableHeader from "@/app/_components/reusable/data-table-header";
+import { DataTable } from "@/app/_components/reusable/data-table/data-table";
+import DataTableHeader from "@/app/_components/reusable/data-table/data-table-header";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,103 +18,146 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Loader2Icon, PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import AddForm from "./AddForm";
 import { columns as baseColumns } from "./columns";
-import { useToast } from "@/hooks/use-toast";
-import { useTableContext } from "@/contexts/TableContext";
-import { DataTablePagination } from "@/app/_components/reusable/data-table-pagination";
+
+import { DataTableRowActions } from "@/app/[lang]/admin/categories/data-table-row-actions";
+import React from "react";
+import { TablePagination } from "@/app/_components/reusable/data-table/TablePagination";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Loader from "@/app/_components/reusable/Loader";
+import Error from "@/app/_components/reusable/Error";
+import { toast } from "sonner";
 
 function Table() {
-  const { toast } = useToast();
+  const [page, setPage] = React.useState(1);
+  const [pageSize, setPageSize] = React.useState(6);
 
   const queryClient = useQueryClient();
 
   // mutate & invalidate data
   const createMutation = useMutation({
     mutationFn: createProjectCategory,
+    onMutate: () => {
+      window.createCategoryToastId = toast.loading("Creating category...", {
+        description: "Please wait while we create the category.",
+      });
+    },
     onSuccess: () => {
-      // Invalidate and refetch
+      toast.dismiss(window.createCategoryToastId);
+      toast.success("Create success", {
+        description: "Category created successfully",
+      });
       queryClient.invalidateQueries({ queryKey: ["project-categories"] });
+    },
+    onError: () => {
+      toast.dismiss(window.createCategoryToastId);
+      toast.error("Create failed", {
+        description: "Failed to create category",
+      });
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: (id) => deleteProjectCategory(id),
     onSuccess: () => {
+      toast.success("Delete success", {
+        description: "Category deleted successfully",
+      });
       queryClient.invalidateQueries({ queryKey: ["project-categories"] });
+    },
+    onError: () => {
+      toast.error("Delete failed", {
+        description: "Failed to delete category",
+      });
     },
   });
 
-  // Insert category
+  const updateMutation = useMutation({
+    mutationFn: ({ id, category }) => updateProjectCategory(id, category),
+    onSuccess: () => {
+      toast.success("Update success", {
+        description: "Category updated successfully",
+      });
+      queryClient.invalidateQueries({ queryKey: ["project-categories"] });
+    },
+    onError: () => {
+      toast.error("Update failed", {
+        description: "Failed to update category",
+      });
+    },
+  });
+
+  // fetch data
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["project-categories"],
-    queryFn: fetchProjectCategories,
+    queryKey: ["project-categories", page, pageSize],
+    queryFn: () => fetchPaginatedProjectCategoriesWithCount(page, pageSize),
   });
 
-  const columns = baseColumns.map((column) => {
-    if (column.accessorKey === "actions") {
-      return {
-        ...column,
-        cell: ({ row }) => {
-          return (
-            <div className="flex gap-2 items-center">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => {
-                  console.log("edit id: ", row.getValue("id"));
-                }}
-              >
-                <PencilIcon className="h-4 w-4" />
-              </Button>
-              <Separator orientation="vertical" className="h-6" />
-              <Button
-                size="icon"
-                className="text-red-500 bg-transparent hover:bg-red-500/10"
-                onClick={async () => {
-                  const confirmed = confirm(
-                    "Are you sure to delete this category? Action cannot be undone."
-                  );
-                  if (!confirmed) return;
+  // React.useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
-                  try {
-                    await deleteMutation.mutateAsync(row.getValue("id"));
-                    toast({
-                      title: "Delete success",
-                      description: "Category deleted successfully",
-                    });
-                  } catch (error) {
-                    toast({
-                      title: "Delete failed",
-                      description: "Failed to delete category",
-                    });
-                  }
-                }}
-                disabled={deleteMutation.isPending}
-              >
-                {deleteMutation.isPending ? (
-                  <Loader2Icon className="h-4 w-4 animate-spin" />
-                ) : (
-                  <TrashIcon className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
-          );
-        },
-      };
+  const totalPages = Math.ceil(data?.count / pageSize || 1);
+
+  const onDeleteCategory = async (id) => {
+    const confirmed = confirm(
+      "Are you sure to delete this category? Action cannot be undone."
+    );
+    if (!confirmed) return;
+
+    try {
+      await deleteMutation.mutateAsync(id);
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      toast.error("Failed to delete category", {
+        description: "Please try again later.",
+      });
     }
-    return column;
-  });
+  };
+
+  const onUpdateCategory = async (id, category) => {
+    updateMutation.mutate({ id, category });
+  };
+
+  const columns = React.useMemo(
+    () =>
+      baseColumns.map((column) => {
+        if (column.accessorKey === "actions") {
+          return {
+            ...column,
+            cell: ({ row }) => {
+              return (
+                <DataTableRowActions
+                  row={row}
+                  onDeleteCategory={onDeleteCategory}
+                  onUpdateCategory={onUpdateCategory}
+                  mutation={updateMutation}
+                />
+              );
+            },
+          };
+        }
+        return column;
+      }),
+    []
+  );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader content="Loading project categories..." />;
   }
 
   if (isError) {
-    return <div>Error...</div>;
+    return <Error />;
   }
 
   return (
@@ -126,28 +171,64 @@ function Table() {
             searchColumnId={"name"}
             searchInputPlaceholder={"Tìm theo tên..."}
           >
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size={"icon"} variant="outline">
-                  <PlusIcon className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Add project category</DialogTitle>
-                  <DialogDescription>
-                    Enter your project category informations and submit.
-                  </DialogDescription>
-                </DialogHeader>
-                <AddForm mutation={createMutation} />
-              </DialogContent>
-            </Dialog>
+            <AddDialog createMutation={createMutation} />
+            <PageSizeSelect pageSize={pageSize} setPageSize={setPageSize} />
           </DataTableHeader>
         }
       />
-      <DataTablePagination />
+      <TablePagination page={page} setPage={setPage} totalPages={totalPages} />
     </>
   );
 }
 
 export default Table;
+
+const AddDialog = ({ createMutation }) => {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button size={"icon"} variant="outline" className={"shrink-0"}>
+          <PlusIcon className="h-4 w-4" />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add project category</DialogTitle>
+          <DialogDescription>
+            Enter your project category informations and submit.
+          </DialogDescription>
+        </DialogHeader>
+        <AddForm mutation={createMutation} />
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const PageSizeSelect = ({ pageSize, setPageSize }) => {
+  return (
+    <div className="flex items-center gap-4 w-full justify-end">
+      <span className="text-sm text-muted-foreground">Items per page:</span>
+      <Select value={pageSize} onValueChange={setPageSize} id="pageSize">
+        <SelectTrigger className="w-[80px]">
+          <SelectValue placeholder={`Items per page`} />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {[1, 6, 12, 24, 36, 48].map((size, index) => (
+              <SelectItem
+                key={size}
+                value={size}
+                onClick={() => {
+                  setPageSize(size);
+                  setPage(1);
+                }}
+              >
+                {size}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+};

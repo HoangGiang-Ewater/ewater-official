@@ -63,6 +63,7 @@ export function SearchAndReplaceToolbar() {
         <TooltipTrigger asChild>
           <PopoverTrigger disabled={!editor} asChild>
             <Button
+              type="button"
               variant="ghost"
               size="sm"
               onClick={() => {
@@ -71,7 +72,7 @@ export function SearchAndReplaceToolbar() {
               className={cn("h-8 w-max px-3 font-normal")}
             >
               <Repeat className="mr-2 h-4 w-4" />
-              <p>Search & Replace</p>
+              {/* <p>Search & Replace</p> */}
             </Button>
           </PopoverTrigger>
         </TooltipTrigger>
@@ -104,6 +105,7 @@ export function SearchAndReplaceToolbar() {
               {results?.length}
             </span>
             <Button
+              type="button"
               onClick={selectPrevious}
               size="icon"
               variant="ghost"
@@ -112,6 +114,7 @@ export function SearchAndReplaceToolbar() {
               <ArrowLeft className="size-4" />
             </Button>
             <Button
+              type="button"
               onClick={selectNext}
               size="icon"
               className="size-7"
@@ -121,6 +124,7 @@ export function SearchAndReplaceToolbar() {
             </Button>
             <Separator orientation="vertical" className="h-7 mx-0.5" />
             <Button
+              type="button"
               onClick={() => {
                 setReplacing(true);
               }}
@@ -131,6 +135,7 @@ export function SearchAndReplaceToolbar() {
               <Repeat className="h-4 w-4" />
             </Button>
             <Button
+              type="button"
               onClick={() => {
                 setOpen(false);
               }}
@@ -151,6 +156,7 @@ export function SearchAndReplaceToolbar() {
             />
             <div className="flex w-full items-center gap-3">
               <Button
+                type="button"
                 size="icon"
                 className="size-7 rounded-full"
                 variant="ghost"
@@ -209,6 +215,7 @@ export function SearchAndReplaceToolbar() {
             <div className="actions mt-6 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Button
+                  type="button"
                   onClick={selectPrevious}
                   size="icon"
                   className="h-7 w-7"
@@ -217,6 +224,7 @@ export function SearchAndReplaceToolbar() {
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
                 <Button
+                  type="button"
                   onClick={selectNext}
                   size="icon"
                   className="h-7 w-7"
@@ -228,6 +236,7 @@ export function SearchAndReplaceToolbar() {
 
               <div className="main-actions flex items-center gap-2">
                 <Button
+                  type="button"
                   size="sm"
                   className="h-7 px-3 text-xs"
                   variant="secondary"
@@ -236,6 +245,7 @@ export function SearchAndReplaceToolbar() {
                   Replace All
                 </Button>
                 <Button
+                  type="button"
                   onClick={replace}
                   size="sm"
                   className="h-7 px-3 text-xs"

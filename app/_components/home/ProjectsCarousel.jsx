@@ -9,9 +9,34 @@ import {
 } from "@/components/ui/carousel";
 import Project from "../reusable/Project";
 import { blurSlideUp } from "@/lib/animate";
+import { useQuery } from "@tanstack/react-query";
+import { getProjects } from "@/api/projects";
 
-function ProjectsCarousel({ projects }) {
+function ProjectsCarousel() {
   const { setApi, current, count, scrollPrev, scrollNext } = useCarousel();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["projects"],
+    queryFn: getProjects,
+  });
+
+  const projects = data?.data || [];
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex items-center justify-center w-full h-full">
+        <p>Something went wrong</p>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -83,7 +108,7 @@ function ProjectsCarousel({ projects }) {
                 viewport={{ margin: "500px 0px -100px 0px", once: true }}
                 transition={{ delay: index * 0.3, duration: 0.5 }}
               >
-                <Project project={project} />
+                <Project project={project} truncate />
               </motion.div>
             </CarouselItem>
           ))}

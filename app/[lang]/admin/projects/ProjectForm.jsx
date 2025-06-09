@@ -33,7 +33,7 @@ function ProjectForm() {
   const [files, setFiles] = React.useState([]);
   const handleFileUpload = (files) => {
     setFiles(files);
-    console.log(files);
+    // console.log(files);
   };
 
   // 1. Define your form.

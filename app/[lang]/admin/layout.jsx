@@ -1,13 +1,14 @@
 // app/[lang]/(admin)/layout.jsx
 "use client";
-import { Toaster } from "@/components/ui/toaster";
+import AdminLayout from "@/app/_components/admin/AdminLayout";
+import { Toaster } from "sonner";
 import TableContextProvider from "@/contexts/TableContext";
 import { supabase } from "@/lib/supabaseClient";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { redirect, useParams } from "next/navigation";
 import { useEffect } from "react";
 
-export default function AdminLayout({ children }) {
+export default function Layout({ children }) {
   const params = useParams();
 
   useEffect(() => {
@@ -40,8 +41,10 @@ export default function AdminLayout({ children }) {
   return (
     <ReactQueryProvider>
       <div className="admin-container">
-        <TableContextProvider>{children}</TableContextProvider>
-        <Toaster></Toaster>
+        <TableContextProvider>
+          <AdminLayout>{children}</AdminLayout>
+        </TableContextProvider>
+        <Toaster richColors />
       </div>
     </ReactQueryProvider>
   );

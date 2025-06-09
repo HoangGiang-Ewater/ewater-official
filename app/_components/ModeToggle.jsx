@@ -20,13 +20,15 @@ export function ModeToggle({ isScrolled, mode, pathname }) {
       <DropdownMenuTrigger asChild>
         <Button
           size="icon"
+          // className={cn(
+          //   "bg-transparent hover:bg-transparent hover:brightness-90 dark:hover:brightness-110 transition shadow-none",
+          //   isScrolled || pathname
+          //     ? "text-gray-900 dark:text-gray-100"
+          //     : "text-white dark:text-gray-100"
+          // )}
           className={cn(
             "bg-transparent hover:bg-transparent hover:brightness-90 dark:hover:brightness-110 transition shadow-none",
-            `${
-              isScrolled || pathname
-                ? "text-gray-900 dark:text-gray-100"
-                : "text-white"
-            }`
+            "text-gray-900 dark:text-gray-100"
           )}
         >
           <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />

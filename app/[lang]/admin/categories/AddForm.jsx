@@ -12,11 +12,11 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon } from "lucide-react";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -28,8 +28,6 @@ const formSchema = z.object({
 });
 
 function AddForm({ mutation }) {
-  const { toast } = useToast();
-
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,31 +39,6 @@ function AddForm({ mutation }) {
   async function onSubmit(category) {
     mutation?.mutate(category);
   }
-
-  React.useEffect(() => {
-    if (mutation?.isPending) {
-      toast({
-        title: "Creating category...",
-        description: "Please wait a moment.",
-      });
-    }
-
-    if (mutation?.isError) {
-      toast({
-        title: "Somethings went wrong!",
-        description: mutation.error.message,
-      });
-    }
-
-    if (mutation?.isSuccess) {
-      form.reset();
-
-      toast({
-        title: "Category created!",
-        description: "You can create more categories.",
-      });
-    }
-  }, [mutation?.isPending, mutation?.isError, mutation?.isSuccess]);
 
   return (
     <Form {...form}>

@@ -1,32 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
 
 export const columns = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
   {
     accessorKey: "id",
     header: ({ column }) => {
@@ -35,13 +12,13 @@ export const columns = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Id
+          STT
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      return <span className="text-sm ml-5">{row.getValue("id")}</span>;
+      return <span className="text-sm ml-5">{row.index + 1}</span>;
     },
   },
   {
@@ -57,10 +34,9 @@ export const columns = [
         </Button>
       );
     },
-    // cell: ({ row }) => {},
   },
   {
-    accessorKey: "amount",
+    accessorKey: "projects_count",
     header: ({ column }) => {
       return (
         <Button
@@ -72,9 +48,14 @@ export const columns = [
         </Button>
       );
     },
+    cell: ({ row }) => {
+      return (
+        <span className="text-sm ml-16">{row.getValue("projects_count")}</span>
+      );
+    },
   },
   {
     accessorKey: "actions",
-    header: ({ column }) => {},
+    header: () => {},
   },
 ];

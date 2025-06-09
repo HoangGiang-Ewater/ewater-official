@@ -7,7 +7,7 @@ const SaveBtn = React.forwardRef(({ onClick }, ref) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button size={"icon"} onClick={onClick} ref={ref}>
+        <Button type="button" size={"icon"} onClick={onClick} ref={ref}>
           <span className="sr-only">Save</span>
           <SaveIcon className="w-4 h-4" />
         </Button>

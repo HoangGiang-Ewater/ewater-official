@@ -10,7 +10,7 @@ async function Projects() {
   if (error) {
     console.error("Error fetching project categories:", error);
   } else {
-    console.log("Project categories: ", data);
+    // console.log("Project categories: ", data);
   }
 
   // LATER: Get data from API

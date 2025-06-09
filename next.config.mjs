@@ -7,6 +7,14 @@ const nextConfig = {
         hostname: "s3-alpha-sig.figma.com",
         pathname: "/img/**",
       },
+      {
+        protocol: "https",
+        hostname: "nraafmqsoraqthoyufzv.supabase.co",
+        pathname: "/storage/v1/object/public/**",
+      },
+      // new URL(
+      //   "https://nraafmqsoraqthoyufzv.supabase.co/storage/v1/object/public/**"
+      // ),
     ],
   },
 };
